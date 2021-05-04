@@ -1,3 +1,8 @@
+# Python bindings
+*.pyc
+__pycache__
+*.cxx
+
 # Prerequisites
 *.d
 
