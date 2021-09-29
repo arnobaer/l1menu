@@ -5,12 +5,32 @@
 
 #include <pugixml.hpp>
 
+#include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/tokenizer.hpp>
+
 #include <sstream>
 
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
-
 namespace l1menu {
+
+template<typename T>
+std::string
+format_decimal(const T& v)
+{
+  return boost::str(boost::format("%+23.16E") % (v));
+}
+
+std::vector<std::string>
+tokenize(const std::string& text)
+{
+  std::vector<std::string> s;
+  boost::char_separator<char> sep(",");
+  boost::tokenizer<boost::char_separator<char>> tokens(text, sep);
+  for (const auto& token: tokens)
+    s.emplace_back(boost::algorithm::trim_copy(token));
+  return s;
+}
 
 template<typename T, typename N>
 T get_value(const N& node, const std::string& key)

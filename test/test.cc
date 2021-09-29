@@ -1,5 +1,6 @@
 #include <l1menu/l1menu.hpp>
 #include <l1menu/l1menu_xml.hpp>
+#include <l1menu/l1menu_print.hpp>
 
 #include <iostream>
 

@@ -1,22 +1,15 @@
 #ifndef l1menu_hpp
 #define l1menu_hpp
 
-#include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/multiprecision/cpp_dec_float.hpp>
-#include <boost/tokenizer.hpp>
-
 #include <vector>
 #include <string>
-#include <sstream>
 
 namespace l1menu {
 
 using size_type = unsigned int;
 using offset_type = signed int;
 using text_type = std::string;
-using decimal_type = long double;//boost::multiprecision::cpp_dec_float_50;
+using decimal_type = long double;
 
 class Cut;
 class ObjectRequirement;
@@ -410,100 +403,6 @@ private:
     ext_signal_set_type m_ext_signal_set;
 };
 
-template<typename T>
-std::string
-format_decimal(const T& v)
-{
-  return boost::str(boost::format("%+23.16E") % (v));
-}
-
-std::vector<std::string>
-tokenize(const std::string& text)
-{
-  std::vector<std::string> s;
-  boost::char_separator<char> sep(",");
-  boost::tokenizer<boost::char_separator<char>> tokens(text, sep);
-  for (const auto& token: tokens)
-    s.emplace_back(boost::algorithm::trim_copy(token));
-  return s;
-}
-
 } // l1menu
-
-#ifndef SWIG
-
-std::ostream&
-operator<<(std::ostream& os, const l1menu::Algorithm& algorithm)
-{
-  os << "l1menu::Algorithm(\n";
-  os << "  index: " << algorithm.index() << "\n";
-  os << "  name: " << algorithm.name() << "\n";
-  os << "  labels: " << boost::algorithm::join( algorithm.labels(), ", ") << "\n";
-  os << "  expression: " << algorithm.expression() << "\n";
-  os << ")";
-  return os;
-}
-
-std::ostream&
-operator<<(std::ostream& os, const l1menu::Bin& bin)
-{
-  os << "l1menu::Bin(\n";
-  os << "  number: " << bin.number() << "\n";
-  os << "  minimum: " << bin.minimum() << "\n";
-  os << "  maximum: " << bin.maximum() << "\n";
-  os << ")";
-  return os;
-}
-
-std::ostream&
-operator<<(std::ostream& os, const l1menu::Scale& scale)
-{
-  os << "l1menu::Scale(\n";
-  os << "  object: " << scale.object() << "\n";
-  os << "  type: " << scale.type() << "\n";
-  os << "  minimum: " << scale.minimum() << "\n";
-  os << "  maximum: " << scale.maximum() << "\n";
-  os << "  step: " << scale.step() << "\n";
-  os << "  n_bits: " << scale.nbits() << "\n";
-  os << ")";
-  return os;
-}
-
-std::ostream&
-operator<<(std::ostream& os, const l1menu::ExtSignal& ext_signal)
-{
-  os << "l1menu::ExtSignal(\n";
-  os << "  name: " << ext_signal.name() << "\n";
-  os << "  system: " << ext_signal.system() << "\n";
-  os << "  cable: " << ext_signal.cable() << "\n";
-  os << "  channel: " << ext_signal.channel() << "\n";
-  os << "  description: " << ext_signal.description() << "\n";
-  os << "  label: " << ext_signal.label() << "\n";
-  os << ")";
-  return os;
-}
-
-std::ostream&
-operator<<(std::ostream& os, const l1menu::Menu::algorithms_type& algorithms)
-{
-  for (const auto& algorithm: algorithms)
-    os << algorithm << std::endl;
-  return os;
-}
-
-std::ostream&
-operator<<(std::ostream& os, const l1menu::Menu& menu)
-{
-  os << "l1menu::Menu(\n";
-  os << "  name: " << menu.name() << "\n";
-  os << "  uuid_menu: " << menu.uuid_menu() << "\n";
-  os << "  uuid_firmware: " << menu.uuid_firmware() << "\n";
-  os << "  grammar_version: " << menu.grammar_version() << "\n";
-  os << "  comment: " << menu.comment() << "\n";
-  os << ")";
-  return os;
-}
-
-#endif // SWIG
 
 #endif // l1menu_hpp
